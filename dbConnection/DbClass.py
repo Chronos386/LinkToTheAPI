@@ -1,3 +1,4 @@
+from os import environ
 from sqlalchemy.orm import sessionmaker
 from dbConnection.DbModels.Base import *
 from dbConnection.GetSet.Getter import Getter
@@ -7,7 +8,8 @@ from dbConnection.SendModel.ApiKey import ApiKey
 
 class DBClass:
     def __init__(self):
-        self.engine = create_engine("postgresql+psycopg2://postgres:Chronos386@localhost/web_db")
+        self.engine = create_engine(f"postgresql+psycopg2://{environ.get('POSTGRES_USER')}:{environ.get('POSTGRES_PASSWORD')}@{environ.get('DB_HOST')}:{environ.get('DB_PORT')}/{environ.get('POSTGRES_DB')}")
+        # self.engine = create_engine("postgresql+psycopg2://postgres:postgres@localhost:2021/postgres")
         self.Session = sessionmaker(bind=self.engine)
         self.session = self.Session()
         self.getter = Getter(self.session)

@@ -64,6 +64,7 @@ class Getter:
         basket_arr = []
         for prod_id in acc_basket:
             prod = self.session.query(Products).filter_by(id=prod_id.prod_id).first()
-            basket_arr.append(SendBasket(name=prod.name, pict_url=prod.picturl, price=prod.price, count=prod_id.count))
+            basket_arr.append(SendBasket(id_1=prod.id, name=prod.name, pict_url=prod.picturl, price=prod.price,
+                                         count=prod_id.count))
         dataTable = json.dumps(basket_arr, cls=SendBasketEncoder, ensure_ascii=False, sort_keys=True)
         return Response(dataTable, mimetype='application/json')
